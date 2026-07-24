@@ -1,0 +1,11 @@
+# MATLAB autosave files
+*.asv
+
+# COMSOL log files
+*.log
+
+# Windows
+Thumbs.db
+
+# macOS
+.DS_Store

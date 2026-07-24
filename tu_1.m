@@ -1,0 +1,20 @@
+function [XD_s,YD_s]= tu_1(disp_node , dip, nodes_ext,f)
+idx_nodes_mid = find(abs(nodes_ext(:,2)) <= 1e-6);   % 中线节点索引
+XD=nodes_ext(idx_nodes_mid,1)*1e3-110;
+XD=XD/XD(1,1);
+[XD_sorted, idx] = sort(XD);
+XD_s=XD_sorted(1:2:end,1);
+node_total = size(disp_node,1);
+dip_full = zeros(node_total*5, size(dip,2));
+map=disp_node';
+map = map(:); % 拉平成一列
+valid = map > 0;
+dip_full(valid, :) = dip(map(valid), :);
+Y_idx=disp_node(idx_nodes_mid,3);
+Y_idx(20,1)=2645;
+YD=dip_full(Y_idx,f*16*0.2+5:f*16*0.2+13);%  415:425
+s = max(abs(YD), [], 'all');
+YD=YD/s;%415个步长时稳态最大振幅，425个步长刚好半个周期
+[~, idy] = sort(YD(:,1));
+YD_sorted=YD(idx,:);
+YD_s=YD_sorted(1:2:end,:);
